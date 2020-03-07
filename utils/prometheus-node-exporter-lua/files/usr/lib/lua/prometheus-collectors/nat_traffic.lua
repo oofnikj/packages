@@ -2,7 +2,7 @@ local function scrape()
   -- documetation about nf_conntrack:
   -- https://www.frozentux.net/iptables-tutorial/chunkyhtml/x1309.html
   nat_metric =  metric("node_nat_traffic", "gauge" )
-  for e in io.lines("/proc/net/nf_conntrack") do
+  for e in io.popen("conntrack -L 2>/dev/null", "r"):lines() do
     -- output(string.format("%s\n",e  ))
     local fields = space_split(e)
     local src, dest, bytes;
